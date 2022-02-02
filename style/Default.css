@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {@apply scroll-smooth font-roboto}
+* {
+	@apply scroll-smooth font-roboto
+}
 
 html {
 	margin-left: calc(100vw - 100%);
@@ -10,10 +12,16 @@ html {
 }
 html.dark {
 	margin-left: calc(100vw - 100%);
-	background: #0f172a;
+	background: #141414;
 }
 
-#__next {@apply w-full h-full}
+#__next {
+	@apply w-full h-full
+}
+
+#app {
+	@apply min-h-screen;
+}
 
 ::placeholder,
 :-ms-input-placeholder,
@@ -21,6 +29,21 @@ html.dark {
 	color: #C5C6C7 !important;
 }
 
+/******************************************************************************
+**	Tailwind Extended
+**	Set of rules independant of UI styling, to provide robust helpers for
+**	tailwind CSS
+******************************************************************************/
+.flex-center {
+	@apply justify-center items-center
+}
+.inline-children > * {
+	@apply inline;
+}
+.text-start {
+	text-align: start;
+	text-align: left;
+}
 .scrollbar-none::-webkit-scrollbar {
     display: none;
 }
@@ -28,16 +51,16 @@ html.dark {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
-
-.flex-center {
-	@apply justify-center items-center;
-}
-.text-start {
-	text-align: start;
-	text-align: left;
+.dark .reduce-brightness {
+	/* Increase saturation to retain lost vibrancy */
+	filter: brightness(0.9) saturate(1.25);
 }
 
 
+/******************************************************************************
+**	Buttons & Links
+**	Set of rules to customize the UI based on the UI template provided
+******************************************************************************/
 button {@apply cursor-pointer}
 button:disabled {@apply cursor-not-allowed}
 
@@ -54,6 +77,34 @@ button:disabled {@apply cursor-not-allowed}
 .button-outline {@apply text-yearn-blue border border-yearn-blue hover:bg-yearn-blue-light-2}
 .button-outline:disabled {@apply text-gray-blue-3 border border-gray-blue-3 bg-opacity-0}
 
-.link {@apply hover:text-yearn-blue hover:underline transition-colors cursor-pointer}
+.link {
+	@apply hover:text-yearn-blue dark:hover:text-white hover:underline transition-colors cursor-pointer
+}
 
-.flex-center {@apply justify-center items-center}
+
+/******************************************************************************
+**	Masonry
+******************************************************************************/
+@layer utilities {
+    @variants responsive {
+        .masonry {
+            column-gap: 1rem;
+			row-gap: 1rem;
+            column-count: 1;
+        }
+        .masonry-sm {
+            column-gap: 1rem;
+			row-gap: 1rem;
+            column-count: 2;
+        }
+        .masonry-md {
+            column-gap: 1rem;
+			row-gap: 1rem;
+            column-count: 3;
+        }
+        .break-inside {
+            break-inside: avoid;
+        }
+
+    }
+}

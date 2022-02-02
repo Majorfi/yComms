@@ -4,7 +4,7 @@ import	IconCross				from	'components/icons/IconCross';
 
 function	DisclaimerPage() {
 	return (
-		<div className={'w-full'}>
+		<div className={'mt-2 w-full'}>
 			<div className={'p-6 bg-white'}>
 				<div className={'flex flex-row justify-between pb-6 w-full'}>
 					<h3 className={'text-base font-bold text-dark-blue-1 hover:text-yearn-blue transition-colors'}>{'Disclaimer'}</h3>

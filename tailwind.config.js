@@ -26,10 +26,28 @@ module.exports = {
 			'white': '#FFFFFF',
 			'white-blue-1': '#F4F7FB',
 			'white-blue-2': '#F9FBFD',
+			'black': '#000000',
+			'black-1': '#141414',
+			'gray-1': '#191919',
+			'gray-2': '#272727',
+			'gray-3': '#A8A8A8',
+
 		},
 		extend: {
 			fontFamily: {
+				title: ['Roboto Slab', 'Roboto', 'serif'],
 				roboto: ['Roboto', ...defaultTheme.fontFamily.sans]
+			},
+			boxShadow: {
+				'sm': '0px 0px 8px rgba(0, 23, 70, 0.16)',
+			},
+			gridColumn: {
+				'span-13': 'span 13 / span 13',
+				'span-14': 'span 14 / span 14',
+				'span-15': 'span 15 / span 15',
+			},
+			gridTemplateColumns: {
+				'15': 'repeat(15, minmax(0, 1fr))',
 			},
 			width: {
 				30: '7.5rem',

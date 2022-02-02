@@ -32,6 +32,16 @@ export function	parseMarkdown(markdownText) {
 	return htmlText.trim();
 }
 
+export function	parseMarkdownUnset(markdownText) {
+	const htmlText = markdownText
+		.replace(/\[(.*?)\]\((.*?)\)/gim, "<a class='underline cursor-pointer' target='_blank' href='$2'>$1</a>")
+		.replace(/~~(.*?)~~/gim, '<span>$1</span>')
+		.replace(/\*\*(.*?)\*\*/gim, "<span class='font-bold'>$1</span>")
+		;
+
+	return htmlText.trim();
+}
+
 export const isObjectEmpty = (obj) => !obj || JSON.stringify(obj) === '{}';
 
 export const sum = (...args) => [...args, 0].reduce((a, b) => a + b);

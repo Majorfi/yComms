@@ -1,21 +1,44 @@
 import	React						from	'react';
 import	Head						from	'next/head';
 import	{DefaultSeo}				from	'next-seo';
-import	{ethers}					from	'ethers';
-import	{Web3ReactProvider}			from	'@web3-react/core';
-import	{BalancesContextApp}		from	'contexts/useBalances';
 import	{UIContextApp}				from	'contexts/useUI';
-import	{PricesContextApp}			from	'contexts/usePrices';
 import	{LocalizationContextApp}	from 	'contexts/useLocalization';
-import	{Web3ContextApp}			from	'contexts/useWeb3';
-import	Header						from	'components/StandardHeader';
+import	{MenuDesktop, MenuMobile}	from	'components/Menu';
 import	Footer						from	'components/StandardFooter';
 
 import	'tailwindcss/tailwind.css';
 import	'style/Default.css';
 
-function	AppWrapper(props) {
+function	WithLayout({props}) {
 	const	{Component, pageProps, router} = props;
+
+	return (
+		<>
+			<MenuMobile />
+			<div id={'app'} className={'flex relative flex-col mx-auto mb-0 w-full max-w-6xl'}>
+				<div className={'grid grid-cols-15 gap-x-4'}>
+					<div className={'hidden md:block md:col-span-3'}>
+						<MenuDesktop />
+					</div>
+					<main className={'flex flex-col col-span-15 px-4 pt-20 min-h-full md:col-span-12 md:px-0 md:pt-12'}>
+						<Component
+							key={router.route}
+							element={props.element}
+							router={props.router}
+							{...pageProps} />
+						<div className={'grid static bottom-0 grid-cols-12 mt-auto'}>
+							<div className={'col-span-12'}>
+								<Footer />
+							</div>
+						</div>
+					</main>
+				</div>
+			</div>
+		</>
+	);
+}
+
+function	AppWrapper(props) {
 	const	WEBSITE_URI = process.env.WEBSITE_URI;
 
 	return (
@@ -69,43 +92,24 @@ function	AppWrapper(props) {
 					site: '@iearnfinance',
 					cardType: 'summary_large_image',
 				}} />
-			<Header />
-			<main id={'app'} className={'flex relative flex-col mx-auto mb-0 max-w-6xl md:flex-row md:mb-6'}>
-				<Component
-					key={router.route}
-					element={props.element}
-					router={props.router}
-					{...pageProps} />
-			</main>
-			<Footer />
+			<WithLayout props={props} />
 		</>
 	);
 }
 
-const getLibrary = (provider) => {
-	return new ethers.providers.Web3Provider(provider, 'any');
-};
 
 function	MyApp(props) {
 	const	{Component, pageProps} = props;
 	
 	return (
 		<UIContextApp>
-			<Web3ReactProvider getLibrary={getLibrary}>
-				<Web3ContextApp>
-					<BalancesContextApp>
-						<PricesContextApp>
-							<LocalizationContextApp router={props.router}>
-								<AppWrapper
-									Component={Component}
-									pageProps={pageProps}
-									element={props.element}
-									router={props.router} />
-							</LocalizationContextApp>
-						</PricesContextApp>
-					</BalancesContextApp>
-				</Web3ContextApp>
-			</Web3ReactProvider>
+			<LocalizationContextApp router={props.router}>
+				<AppWrapper
+					Component={Component}
+					pageProps={pageProps}
+					element={props.element}
+					router={props.router} />
+			</LocalizationContextApp>
 		</UIContextApp>
 	);
 }
